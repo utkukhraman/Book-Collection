@@ -44,9 +44,8 @@
      flutter run
      ```
 
-## Proje yapısı
 
-## 📂 Proje Yapısı
+## Proje Yapısı
 
 - `assets/`
    - `images/` → Genel Görsellerin Tutulduğu Klasör
