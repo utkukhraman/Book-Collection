@@ -46,21 +46,22 @@
 
 ## Proje yapısı
 
-assets/
-├── images/          # Genel Görsellerin Tutulduğu Klasör
-│   ├── books/        # Kitap Görsellerinin Tutulduğu Klasör
-│   ├── screenshots/  # Proje Ekran Görüntülerinin Bulunduğu Klasör
-│
-├── videos/          # Proje Videolarının Tutulduğu Klasör
+## 📂 Proje Yapısı
 
-lib/
-├── add_book.dart     # Kitap Eklenen Sayfa  
-├── book_info.dart    # Kitap Bilgi Sayfası
-├── main.dart         # Kitapların Listelendiği ve Menünün Olduğu Sayfa
-├── data.dart         # Kitap Datalarının Olduğu Sayfa
-├── profile.dart      # Profil, Okunan ve Okunacak Kitapların Listelendiği Sayfa
-├── search.dart       # Kitap Araması Yapılan Sayfa
-├── settings.dart     # Ayarların Yapıldığı Sayfa
+- `assets/`
+   - `images/` → Genel Görsellerin Tutulduğu Klasör
+      - `books/` → Kitap Görsellerinin Tutulduğu Klasör
+      - `screenshots/` → Proje Ekran Görüntülerinin Bulunduğu Klasör
+   - `videos/` → Proje Videolarının Tutulduğu Klasör
+- `lib/`
+   - `add_book.dart` → Kitap Eklenen Sayfa
+   - `book_info.dart` → Kitap Bilgi Sayfası
+   - `main.dart` → Kitapların Listelendiği ve Menünün Olduğu Sayfa
+   - `data.dart` → Kitap Datalarının Olduğu Sayfa
+   - `profile.dart` → Profil, Okunan ve Okunacak Kitapların Listelendiği Sayfa
+   - `search.dart` → Kitap Araması Yapılan Sayfa
+   - `settings.dart` → Ayarların Yapıldığı Sayfa
+
 
 
 
