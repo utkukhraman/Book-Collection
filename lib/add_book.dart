@@ -32,8 +32,32 @@ class _AddBookPageState extends State<AddBookPage> {
         'gorsel': _gorselController.text,
         'aciklama': _aciklamaController.text,
       };
-      books.add(newBook);
-      Navigator.pop(context);
+      setState(() {
+        books.add(newBook);  // Kitaplar listesine yeni kitap ekleniyor
+      });
+
+      // Başarılı mesajı göster
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Başarılı'),
+            content: const Text('Kitap başarıyla eklendi.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Dialog'u kapat
+                  _adController.clear(); // Kitap adı text kutusunu temizle
+                  _yazarController.clear(); // Yazar adı text kutusunu temizle
+                  _gorselController.clear(); // Görsel URL text kutusunu temizle
+                  _aciklamaController.clear(); // Açıklama text kutusunu temizle
+                },
+                child: const Text('Tamam'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -42,6 +66,7 @@ class _AddBookPageState extends State<AddBookPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kitap Ekle'),
+        backgroundColor: Colors.blue, // Mavi renk başlık için
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'data.dart'; // data.dart dosyasını içe aktar
 
 class BookInfoPage extends StatelessWidget {
-  final Map<String, String> book;
+  final Map<String, dynamic> book;
 
   const BookInfoPage({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {
-    // Tema modunu kontrol et
     final ThemeData theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
+    final bool isDarkMode = theme.brightness == Brightness.dark;
 
-    // null kontrolü ekleniyor
-    final String bookImage = book['gorsel'] ?? 'assets/default_image.png'; // Varsayılan bir görsel
+    final String bookImage = book['gorsel'] ?? 'assets/default_image.png';
     final String bookTitle = book['ad'] ?? 'Başlık Yok';
     final String bookAuthor = book['yazar'] ?? 'Yazar Bilgisi Yok';
     final String bookDescription = book['aciklama'] ?? 'Açıklama Bilgisi Yok';
@@ -24,7 +22,7 @@ class BookInfoPage extends StatelessWidget {
         backgroundColor: const Color(0xFF2196F3),
       ),
       body: Container(
-        color: isDarkMode ? Colors.black : Colors.white, // Arka plan rengini tema moduna göre değiştir
+        color: isDarkMode ? Colors.black : Colors.white,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +47,7 @@ class BookInfoPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: isDarkMode ? Colors.white : Colors.black, // Metin rengini tema moduna göre değiştir
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
             const SizedBox(height: 8),
@@ -57,21 +55,21 @@ class BookInfoPage extends StatelessWidget {
               'Yazar: $bookAuthor',
               style: TextStyle(
                 fontSize: 18,
-                color: isDarkMode ? Colors.white70 : Colors.black54, // Yazar metnini daha belirgin hale getir
+                color: isDarkMode ? Colors.white70 : Colors.black54,
               ),
             ),
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
-                color: isDarkMode ? Colors.grey[800] : Colors.grey[200], // Detay kısmının arka planını ayarla
+                color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
                 bookDescription,
                 style: TextStyle(
                   fontSize: 16,
-                  color: isDarkMode ? Colors.white : Colors.black, // Metin rengini tema moduna göre değiştir
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
             ),
@@ -83,6 +81,8 @@ class BookInfoPage extends StatelessWidget {
 }
 
 class BooksPage extends StatelessWidget {
+  const BooksPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,17 +94,27 @@ class BooksPage extends StatelessWidget {
         itemCount: books.length,
         itemBuilder: (context, index) {
           final book = books[index];
+
           return ListTile(
-            leading: Image.asset(
-              book['gorsel']!,
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: Image.asset(
+                book['gorsel'] ?? 'assets/default_image.png',
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    Icons.broken_image,
+                    size: 50,
+                    color: Colors.grey,
+                  );
+                },
+              ),
             ),
-            title: Text(book['ad']!),
-            subtitle: Text(book['yazar']!),
+            title: Text(book['ad'] ?? 'Başlık Yok'),
+            subtitle: Text(book['yazar'] ?? 'Yazar Bilgisi Yok'),
             onTap: () {
-              // Kitap detay sayfasına geçiş yap
               Navigator.push(
                 context,
                 MaterialPageRoute(

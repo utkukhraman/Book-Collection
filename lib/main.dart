@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'book_info.dart';  // book_info.dart dosyasını ekliyoruz
+import 'book_info.dart';  // Kitap detay sayfası
 import 'profile.dart';
 import 'add_book.dart';
 import 'settings.dart';
-import 'data.dart';  // data.dart dosyasını dahil ediyoruz
+import 'data.dart';  // Kitap verilerini içeren dosya
+import 'search.dart'; // Arama sayfası
 
 void main() {
   runApp(const KitapKoleksiyonuApp());
@@ -18,10 +19,18 @@ class KitapKoleksiyonuApp extends StatefulWidget {
 
 class _KitapKoleksiyonuAppState extends State<KitapKoleksiyonuApp> {
   ThemeMode _themeMode = ThemeMode.light; // Varsayılan tema modu
+  int _selectedIndex = 0; // Aktif olan sekme
 
   void _updateThemeMode(ThemeMode themeMode) {
     setState(() {
       _themeMode = themeMode;
+    });
+  }
+
+  // Sayfa geçiş fonksiyonu
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
     });
   }
 
@@ -38,154 +47,138 @@ class _KitapKoleksiyonuAppState extends State<KitapKoleksiyonuApp> {
         ),
       ),
       darkTheme: ThemeData.dark(),
-      home: const AnaSayfa(),
+      home: AnaSayfa(onThemeChanged: _updateThemeMode, selectedIndex: _selectedIndex, onItemTapped: _onItemTapped),
     );
   }
 }
 
 class AnaSayfa extends StatelessWidget {
-  const AnaSayfa({super.key});
+  final Function(ThemeMode) onThemeChanged;
+  final int selectedIndex;
+  final Function(int) onItemTapped;
+
+  const AnaSayfa({super.key, required this.onThemeChanged, required this.selectedIndex, required this.onItemTapped});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kitap Koleksiyonu'),
-        backgroundColor: const Color(0xFF2196F3),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color(0xFF2196F3),
-              ),
-              child: const Text(
-                'Menü',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Profil'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.add),
-              title: const Text('Kitap Ekle'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddBookPage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Ayarlar'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SettingsPage(
-                      onThemeChanged: (ThemeMode mode) {
-                        // Tema değiştiğinde güncelleniyor
-                        final _KitapKoleksiyonuAppState appState =
-                        context.findAncestorStateOfType<_KitapKoleksiyonuAppState>()!;
-                        appState._updateThemeMode(mode);
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
+    List<Widget> pages = [
+      Scaffold(
+        appBar: AppBar(
+          title: const Text('Kitap Koleksiyonu'),
+          backgroundColor: const Color(0xFF2196F3),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 0.6,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 0.6,
+            ),
+            itemCount: books.length,
+            itemBuilder: (context, index) {
+              final book = books[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookInfoPage(book: book),
+                    ),
+                  );
+                },
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(8),
+                          ),
+                          child: Image.asset(
+                            book['gorsel'] ?? 'assets/default_image.png',
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.broken_image,
+                                size: 64,
+                                color: Colors.grey,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              book['ad'] ?? 'Başlık Yok',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              book['yazar'] ?? 'Yazar Bilgisi Yok',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
-          itemCount: books.length,
-          itemBuilder: (context, index) {
-            final book = books[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BookInfoPage(book: book),
-                  ),
-                );
-              },
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(8),
-                        ),
-                        child: Image.asset(
-                          book['gorsel']!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(
-                              Icons.broken_image,
-                              size: 64,
-                              color: Colors.grey,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            book['ad']!,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            book['yazar']!,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
         ),
+      ),
+      const SearchPage(),  // Arama sayfası
+      const AddBookPage(),  // Kitap ekleme sayfası
+      SettingsPage(onThemeChanged: onThemeChanged),  // Ayarlar sayfası
+      const ProfilePage(),  // Profil sayfası
+    ];
+
+    return Scaffold(
+      body: pages[selectedIndex], // Aktif sayfayı göster
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: onItemTapped, // Menü öğesine tıklayınca aktif olan sayfayı değiştir
+        selectedItemColor: const Color(0xFF2196F3), // Seçilen öğenin rengi
+        unselectedItemColor: Colors.grey, // Seçilmemiş öğelerin rengi
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Ana Sayfa',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Ara',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Ekle',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Ayarlar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+        ],
       ),
     );
   }
