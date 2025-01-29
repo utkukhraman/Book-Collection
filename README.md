@@ -47,21 +47,21 @@
 ## Proje yapısı
 
 assets/
-|-- images/          # Genel Görsellerin Tutulduğu Klasör
-   |-- books/        # Kitap Görsellerinin Tutulduğu Klasör
-   |-- screenshots/  # Proje Ekran Görüntülerinin Bulunduğu Klasör
-|-- videos/          # Proje Videolarının Tutulduğu Klasör
-
-
+├── images/          # Genel Görsellerin Tutulduğu Klasör
+│   ├── books/        # Kitap Görsellerinin Tutulduğu Klasör
+│   ├── screenshots/  # Proje Ekran Görüntülerinin Bulunduğu Klasör
+│
+├── videos/          # Proje Videolarının Tutulduğu Klasör
 
 lib/
-|-- add_book.dart         # Kitap Eklenen Sayfa  
-|-- book_info.dart        # Kitap Bilgi Sayfası 
-|-- main.dart             # Kitapların Listelendiği ve Menünün Olduğu Sayfa
-|-- data.dart             # Kitap Datalarının Olduğu Sayfa
-|-- profile.dart          # Profil, Okunan ve Okunacak Kitapların Listelendiği Sayfa
-|-- search.dart           # Kitap Araması Yapılan Sayfa
-|-- settings.dart         # Ayarların Yapıldığı Sayfa
+├── add_book.dart     # Kitap Eklenen Sayfa  
+├── book_info.dart    # Kitap Bilgi Sayfası
+├── main.dart         # Kitapların Listelendiği ve Menünün Olduğu Sayfa
+├── data.dart         # Kitap Datalarının Olduğu Sayfa
+├── profile.dart      # Profil, Okunan ve Okunacak Kitapların Listelendiği Sayfa
+├── search.dart       # Kitap Araması Yapılan Sayfa
+├── settings.dart     # Ayarların Yapıldığı Sayfa
+
 
 
 
@@ -80,8 +80,12 @@ lib/
 ![Profil](assets/images/screenshots/profile.png)
 
 ## Demo
-![Light Demo](assets/videos/light-theme.mp4)
-![Dark Demo](assets/videos/dark-theme.mp4)
+
+### 🎨 Light Tema
+[![Light Tema](https://img.youtube.com/vi/qbuHwcFJMxQ/0.jpg)](https://youtube.com/shorts/qbuHwcFJMxQ)
+
+### 🌙 Dark Tema
+[![Dark Tema](https://img.youtube.com/vi/LVPeaeT7A3E/0.jpg)](https://youtube.com/shorts/LVPeaeT7A3E)
 
 
 ## Projeye Katkı Sağlama
