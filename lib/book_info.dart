@@ -21,8 +21,7 @@ class BookInfoPage extends StatelessWidget {
         title: const Text('Kitap Detayı'),
         backgroundColor: const Color(0xFF2196F3),
       ),
-      body: Container(
-        color: isDarkMode ? Colors.black : Colors.white,
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,40 +89,49 @@ class BooksPage extends StatelessWidget {
         title: const Text('Kitaplar'),
         backgroundColor: const Color(0xFF2196F3),
       ),
-      body: ListView.builder(
-        itemCount: books.length,
-        itemBuilder: (context, index) {
-          final book = books[index];
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: books.length,
+                itemBuilder: (context, index) {
+                  final book = books[index];
 
-          return ListTile(
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Image.asset(
-                book['gorsel'] ?? 'assets/default_image.png',
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(
-                    Icons.broken_image,
-                    size: 50,
-                    color: Colors.grey,
+                  return ListTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Image.asset(
+                        book['gorsel'] ?? 'assets/default_image.png',
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(
+                            Icons.broken_image,
+                            size: 50,
+                            color: Colors.grey,
+                          );
+                        },
+                      ),
+                    ),
+                    title: Text(book['ad'] ?? 'Başlık Yok'),
+                    subtitle: Text(book['yazar'] ?? 'Yazar Bilgisi Yok'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BookInfoPage(book: book),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
             ),
-            title: Text(book['ad'] ?? 'Başlık Yok'),
-            subtitle: Text(book['yazar'] ?? 'Yazar Bilgisi Yok'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BookInfoPage(book: book),
-                ),
-              );
-            },
-          );
-        },
+          ],
+        ),
       ),
     );
   }
