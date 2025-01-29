@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'book_info.dart';  // Kitap detay sayfası
+import 'package:google_fonts/google_fonts.dart';
+import 'book_info.dart';
 import 'profile.dart';
 import 'add_book.dart';
 import 'settings.dart';
-import 'data.dart';  // Kitap verilerini içeren dosya
-import 'search.dart'; // Arama sayfası
+import 'data.dart';
+import 'search.dart';
 
 void main() {
   runApp(const KitapKoleksiyonuApp());
@@ -18,8 +19,8 @@ class KitapKoleksiyonuApp extends StatefulWidget {
 }
 
 class _KitapKoleksiyonuAppState extends State<KitapKoleksiyonuApp> {
-  ThemeMode _themeMode = ThemeMode.light; // Varsayılan tema modu
-  int _selectedIndex = 0; // Aktif olan sekme
+  ThemeMode _themeMode = ThemeMode.light;
+  int _selectedIndex = 0;
 
   void _updateThemeMode(ThemeMode themeMode) {
     setState(() {
@@ -27,7 +28,6 @@ class _KitapKoleksiyonuAppState extends State<KitapKoleksiyonuApp> {
     });
   }
 
-  // Sayfa geçiş fonksiyonu
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -42,8 +42,11 @@ class _KitapKoleksiyonuAppState extends State<KitapKoleksiyonuApp> {
       theme: ThemeData(
         primaryColor: const Color(0xFF2196F3),
         scaffoldBackgroundColor: const Color(0xFFF5F5F5),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontFamily: 'Roboto', fontSize: 16),
+        textTheme: TextTheme(
+          bodyLarge: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.w400),
+          bodyMedium: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400),
+          bodySmall: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w400),
+          titleLarge: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       darkTheme: ThemeData.dark(),
@@ -64,7 +67,7 @@ class AnaSayfa extends StatelessWidget {
     List<Widget> pages = [
       Scaffold(
         appBar: AppBar(
-          title: const Text('Kitap Koleksiyonu'),
+          title: Text('Kitap Koleksiyonu', style: GoogleFonts.roboto(fontWeight: FontWeight.bold)),
           backgroundColor: const Color(0xFF2196F3),
         ),
         body: Padding(
@@ -120,7 +123,7 @@ class AnaSayfa extends StatelessWidget {
                           children: [
                             Text(
                               book['ad'] ?? 'Başlık Yok',
-                              style: const TextStyle(
+                              style: GoogleFonts.roboto(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -128,7 +131,7 @@ class AnaSayfa extends StatelessWidget {
                             const SizedBox(height: 4),
                             Text(
                               book['yazar'] ?? 'Yazar Bilgisi Yok',
-                              style: const TextStyle(
+                              style: GoogleFonts.roboto(
                                 fontSize: 14,
                                 color: Colors.grey,
                               ),
@@ -144,19 +147,19 @@ class AnaSayfa extends StatelessWidget {
           ),
         ),
       ),
-      const SearchPage(),  // Arama sayfası
-      const AddBookPage(),  // Kitap ekleme sayfası
-      SettingsPage(onThemeChanged: onThemeChanged),  // Ayarlar sayfası
-      const ProfilePage(),  // Profil sayfası
+      const SearchPage(),
+      const AddBookPage(),
+      SettingsPage(onThemeChanged: onThemeChanged),
+      const ProfilePage(),
     ];
 
     return Scaffold(
-      body: pages[selectedIndex], // Aktif sayfayı göster
+      body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
-        onTap: onItemTapped, // Menü öğesine tıklayınca aktif olan sayfayı değiştir
-        selectedItemColor: const Color(0xFF2196F3), // Seçilen öğenin rengi
-        unselectedItemColor: Colors.grey, // Seçilmemiş öğelerin rengi
+        onTap: onItemTapped,
+        selectedItemColor: const Color(0xFF2196F3),
+        unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

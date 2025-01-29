@@ -11,18 +11,21 @@ dependencies:
   collection: ^1.19.0
   material_color_utilities: ^0.11.1
   meta: ^1.15.0
+  flutter_launcher_icons: ^0.14.3
+  google_fonts: ^6.1.0  # Google Fonts paketi
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/images/
+    - assets/images/books/
+    - assets/images/screenshots/
+    - assets/videos/
 
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto-Regular.ttf
-        - asset: assets/fonts/Roboto-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Roboto-Italic.ttf
-          style: italic
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/app_icon_foreground.png"
